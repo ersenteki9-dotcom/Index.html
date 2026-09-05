@@ -1,1 +1,194 @@
-
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>İyi ki doğdun Burcu</title>
+  <meta name="theme-color" content="#f7c9d4" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blush: #f7c9d4;
+      --rose: #e89aaa;
+      --deep: #c45d75;
+      --cream: #fff7f3;
+      --ink: #3b2a31;
+      --soft: #8a6b74;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      min-height: 100%;
+      background: radial-gradient(1200px 800px at 20% -10%, #ffe4ec 0%, transparent 55%),
+                  radial-gradient(900px 700px at 110% 10%, #ffd6c9 0%, transparent 50%),
+                  linear-gradient(180deg, #fff5f7 0%, #fde8ee 40%, #f6dfe6 100%);
+      color: var(--ink);
+      font-family: "Quicksand", system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+    .sky { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .balloon {
+      position: absolute; bottom: -18vh; width: 42px; height: 54px;
+      border-radius: 50% 50% 50% 50% / 55% 55% 45% 45%;
+      animation: rise linear infinite; opacity: .85;
+    }
+    .balloon::after {
+      content: ""; position: absolute; left: 50%; top: 100%;
+      width: 1px; height: 70px; background: rgba(80,40,50,.25);
+    }
+    .balloon::before {
+      content: ""; position: absolute; left: 50%; bottom: -6px;
+      width: 10px; height: 8px; transform: translateX(-50%);
+      background: inherit; clip-path: polygon(50% 100%, 0 0, 100% 0);
+      filter: brightness(.9);
+    }
+    @keyframes rise {
+      0% { transform: translateY(0) rotate(-6deg); }
+      50% { transform: translateY(-60vh) rotate(6deg); }
+      100% { transform: translateY(-120vh) rotate(-4deg); }
+    }
+    canvas#confetti { position: fixed; inset: 0; z-index: 2; pointer-events: none; }
+    .wrap {
+      position: relative; z-index: 3; min-height: 100dvh;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 48px 20px 64px; text-align: center;
+    }
+    .badge {
+      display: inline-flex; background: rgba(255,255,255,.55);
+      border: 1px solid rgba(255,255,255,.8); backdrop-filter: blur(10px);
+      padding: 8px 14px; border-radius: 999px; font-size: 13px;
+      font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--deep); margin-bottom: 22px;
+    }
+    h1 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(2.4rem, 9vw, 4.6rem); line-height: 1.05;
+      font-weight: 600; color: #4a2c36;
+    }
+    h1 em { font-style: italic; color: var(--deep); display: block; }
+    .lead {
+      max-width: 420px; margin: 18px auto 0; font-size: 1.05rem;
+      line-height: 1.6; color: var(--soft); font-weight: 500;
+    }
+    .letter {
+      margin-top: 28px; width: min(520px, 100%);
+      background: rgba(255,255,255,.72); border: 1px solid rgba(255,255,255,.9);
+      box-shadow: 0 18px 44px rgba(180, 90, 110, .12);
+      backdrop-filter: blur(16px); border-radius: 28px;
+      padding: 26px 22px 24px; text-align: left;
+    }
+    .letter p {
+      font-size: 1.02rem; line-height: 1.75; color: #4e333b;
+      font-weight: 500; margin-bottom: 14px;
+    }
+    .letter p:last-child { margin-bottom: 0; }
+    .letter .nick { color: var(--deep); font-weight: 700; }
+    .card {
+      margin-top: 32px; width: min(520px, 100%);
+      background: rgba(255,255,255,.62); border: 1px solid rgba(255,255,255,.85);
+      box-shadow: 0 20px 50px rgba(180, 90, 110, .12);
+      backdrop-filter: blur(16px); border-radius: 28px; padding: 22px 18px 20px;
+    }
+    .label {
+      font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--deep); font-weight: 700; margin-bottom: 14px;
+    }
+    .timer { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .unit { background: var(--cream); border-radius: 18px; padding: 14px 4px 12px; }
+    .unit b { display: block; font-size: clamp(1.4rem, 6vw, 2rem); font-weight: 700; color: #4a2c36; }
+    .unit span { font-size: 11px; color: var(--soft); font-weight: 600; }
+    .date { margin-top: 14px; font-size: 14px; color: var(--soft); font-weight: 600; }
+    .cake { font-size: 42px; margin-bottom: 6px; }
+    footer { margin-top: 36px; font-size: 12px; color: #b08993; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="sky" id="sky"></div>
+  <canvas id="confetti"></canvas>
+  <main class="wrap">
+    <div class="badge">4 Ekim 2026</div>
+    <div class="cake">🎂</div>
+    <h1>İyi ki doğdun<br><em>Burcu</em></h1>
+    <p class="lead">Doğum günün kutlu olsun Burcu.</p>
+    <section class="card">
+      <div class="label">Doğum gününe kalan</div>
+      <div class="timer">
+        <div class="unit"><b id="d">00</b><span>gün</span></div>
+        <div class="unit"><b id="h">00</b><span>saat</span></div>
+        <div class="unit"><b id="m">00</b><span>dk</span></div>
+        <div class="unit"><b id="s">00</b><span>sn</span></div>
+      </div>
+      <p class="date">4 Ekim 2026 • Pazar</p>
+    </section>
+    <article class="letter">
+      <p>Doğum günün kutlu olsun Burcu.</p>
+      <p>Seni tanımak benim için en şanslı olaylardan biriydi. 3 senedir arkadaşım olduğun için sana çok teşekkür ederim.</p>
+      <p>Ne kadar sanal bir arkadaşlığımız geçse de, çoğu yakın arkadaşımdan daha değerlisin.</p>
+      <p>İyi ki varsın. İyi ki doğdun <span class="nick">ponciğim</span>.</p>
+    </article>
+    <footer>Bir arkadaşından ✨</footer>
+  </main>
+  <script>
+    const TARGET = new Date("2026-10-04T00:00:00+03:00").getTime();
+    function pad(n) { return String(n).padStart(2, "0"); }
+    function tick() {
+      const now = Date.now();
+      let diff = TARGET - now;
+      if (diff < 0) {
+        document.getElementById("d").textContent = "00";
+        document.getElementById("h").textContent = "00";
+        document.getElementById("m").textContent = "00";
+        document.getElementById("s").textContent = "00";
+        document.querySelector(".label").textContent = "Doğum günü geldi";
+        return;
+      }
+      const d = Math.floor(diff / 86400000); diff %= 86400000;
+      const h = Math.floor(diff / 3600000); diff %= 3600000;
+      const m = Math.floor(diff / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById("d").textContent = pad(d);
+      document.getElementById("h").textContent = pad(h);
+      document.getElementById("m").textContent = pad(m);
+      document.getElementById("s").textContent = pad(s);
+    }
+    tick();
+    setInterval(tick, 1000);
+    const colors = ["#f7c9d4", "#e89aaa", "#ffd6c9", "#fff7f3", "#c45d75", "#f3b8c6"];
+    const sky = document.getElementById("sky");
+    for (let i = 0; i < 14; i++) {
+      const b = document.createElement("div");
+      b.className = "balloon";
+      b.style.left = (4 + Math.random() * 92) + "vw";
+      b.style.background = colors[i % colors.length];
+      b.style.animationDuration = (14 + Math.random() * 12) + "s";
+      b.style.animationDelay = (-Math.random() * 16) + "s";
+      sky.appendChild(b);
+    }
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+    let W, H, pieces = [];
+    function resize() { W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+    addEventListener("resize", resize); resize();
+    for (let i = 0; i < 80; i++) {
+      pieces.push({
+        x: Math.random() * W, y: -20 - Math.random() * H * 0.3,
+        w: 6 + Math.random() * 6, h: 8 + Math.random() * 8,
+        vx: -1 + Math.random() * 2, vy: 1.4 + Math.random() * 2.2,
+        rot: Math.random() * Math.PI, vr: -0.08 + Math.random() * 0.16,
+        color: colors[Math.floor(Math.random() * colors.length)]
+      });
+    }
+    (function loop() {
+      ctx.clearRect(0, 0, W, H);
+      pieces.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+        if (p.y > H + 20) { p.y = -20; p.x = Math.random() * W; }
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+        ctx.fillStyle = p.color; ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h); ctx.restore();
+      });
+      requestAnimationFrame(loop);
+    })();
+  </script>
+</body>
+</html>
